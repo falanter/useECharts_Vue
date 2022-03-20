@@ -1,5 +1,7 @@
 # echart-demo
 
+## use Echarts in Vue
+[document](https://echarts.apache.org/handbook/zh/get-started)
 > A Vue.js project
 
 ## Build Setup
