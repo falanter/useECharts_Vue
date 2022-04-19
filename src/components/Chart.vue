@@ -1,5 +1,6 @@
 <template>
     <div class="Echarts">
+        <button @click="change">change</button>
         <div id="main" style="width:600px;height:400px"></div>
         <div id="bing" style="width:600px;height:400px"></div>
     </div>
@@ -8,6 +9,29 @@
 export default {
    name:'Echarts',
    methods:{
+       change(){
+           let myChart2=this.$echarts.init(document.getElementById('bing'));
+            let optionBing={
+                series:[
+                    {
+                        type:'pie',
+                        data:[
+                            {
+                                value:200,
+                                name:'直接访问'
+                            },{
+                                value:335,
+                                name:'广告'
+                            },{
+                                value:100,
+                                name:'搜索'
+                            }
+                        ]
+                    }
+                ]
+            }
+            myChart2.setOption(optionBing)
+       },
        myEcharts(){
            let myChart=this.$echarts.init(document.getElementById('main'));
            let option={
