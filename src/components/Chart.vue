@@ -11,83 +11,59 @@
   </div>
 </template>
 <script>
+import json_data from './data.json'
 export default {
   name: "Echarts",
   data() {
     return {
+        barChart:{},
+        bingChart:{},
+        lineChart:{},
+        optionBar:json_data.bar,
+        optionBing:json_data.bing,
+        optionLine:json_data.line,
         barData:[5, 20, 36, 10, 10, 20],
-        barData_new:[],
-        optionBing:{
-        series: [
-          {
-            type: "pie",
-            data: [],
-          },
-        ],
-      },
-      bingData: [{value: 100,name: "直接访问",},{value: 200,name: "广告",},{value: 335,name: "搜索",},],
-      bingData_new: [{value: 335,name: "直接访问",},{value: 200,name: "广告",},{value: 100,name: "搜索",},],
+        barData_new:[10, 10, 5, 20, 36, 20],
+        bingData: [{value: 100,name: "直接访问",},{value: 200,name: "广告",},{value: 335,name: "搜索",},],
+        bingData_new: [{value: 335,name: "直接访问",},{value: 200,name: "广告",},{value: 100,name: "搜索",},],
+        lineData:[10, 22, 28, 23, 19],
+        lineData_new:[23,22,10,19,28],
+        isChange:false
     };
   },
   methods: {
     change() {
-      let myChart2 = this.$echarts.init(document.getElementById("bing"));
-      this.optionBing.series[0].data=this.bingData_new
-      myChart2.setOption(this.optionBing);
+      if(!this.isChange){
+        this.optionBar.series[0].data=this.barData_new
+        this.optionBing.series[0].data=this.bingData_new
+        this.optionLine.series[0].data=this.lineData_new
+  
+        this.barChart.setOption(this.optionBar);
+        this.bingChart.setOption(this.optionBing);
+        this.lineChart.setOption(this.optionLine);
+        this.isChange=true
+      }else{
+        this.EchartsInit()
+        this.isChange=false
+      }
     },
-    myEcharts() {
-      let myChart = this.$echarts.init(document.getElementById("main"));
-      let option = {
-        title: {
-          text: "ECharts 入门示例",
-        },
-        tooltip: {},
-        legend: {
-          data: ["销量"],
-        },
-        xAxis: {
-          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
-        },
-        yAxis: {},
-        series: [
-          {
-            name: "销量",
-            type: "bar",
-            data: this.barData,
-          },
-        ],
-      };
+    EchartsInit() {
+      this.barChart = this.$echarts.init(document.getElementById("main"));
+      this.bingChart = this.$echarts.init(document.getElementById("bing"));
+      this.lineChart = this.$echarts.init(document.getElementById("line"));
 
-      let myChart2 = this.$echarts.init(document.getElementById("bing"));
+      this.optionBar.series[0].data=this.barData
       this.optionBing.series[0].data=this.bingData
-
-      let myChart3 = this.$echarts.init(document.getElementById("line"));
-      let optionLine = {
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: { type: 'cross' }
-        },
-        xAxis: {
-            data: ['A', 'B', 'C', 'D', 'E']
-        },
-        yAxis: {},
-        series: [
-          {
-            type: "line",
-            data: [10, 22, 28, 23, 19],
-            smooth:true
-          },
-        ],
-      };
+      this.optionLine.series[0].data=this.lineData
 
       // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option);
-      myChart2.setOption(this.optionBing);
-      myChart3.setOption(optionLine);
+      this.barChart.setOption(this.optionBar);
+      this.bingChart.setOption(this.optionBing);
+      this.lineChart.setOption(this.optionLine);
     },
   },
   mounted() {
-    this.myEcharts();
+    this.EchartsInit();
   },
 };
 </script>
