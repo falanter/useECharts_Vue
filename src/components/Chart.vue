@@ -6,7 +6,7 @@
       <div id="line" style="width: 600px; height: 400px"></div>
     </div>
     <div class="down">
-      <button @click="change">change</button>
+      <button @click="changeData">changeData</button>
     </div>
   </div>
 </template>
@@ -32,20 +32,28 @@ export default {
     };
   },
   methods: {
-    change() {
+    changeData() {
       if(!this.isChange){
+        this.newData(1)
+        this.isChange=true
+      }else{
+        this.newData()
+        this.isChange=false
+      }
+    },
+    newData(num){
+      if(num===1){
         this.optionBar.series[0].data=this.barData_new
         this.optionBing.series[0].data=this.bingData_new
         this.optionLine.series[0].data=this.lineData_new
-  
-        this.barChart.setOption(this.optionBar);
-        this.bingChart.setOption(this.optionBing);
-        this.lineChart.setOption(this.optionLine);
-        this.isChange=true
       }else{
-        this.EchartsInit()
-        this.isChange=false
+        this.optionBar.series[0].data=this.barData
+        this.optionBing.series[0].data=this.bingData
+        this.optionLine.series[0].data=this.lineData
       }
+      this.barChart.setOption(this.optionBar);
+      this.bingChart.setOption(this.optionBing);
+      this.lineChart.setOption(this.optionLine);
     },
     EchartsInit() {
       this.barChart = this.$echarts.init(document.getElementById("main"));
@@ -64,6 +72,9 @@ export default {
   },
   mounted() {
     this.EchartsInit();
+    this.timer=setInterval(()=>{
+      this.changeData()
+    },3000)
   },
 };
 </script>
